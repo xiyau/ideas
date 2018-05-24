@@ -4,10 +4,21 @@ const express = require('express');
 
 const app = express();
 
+//set the views directory
+app.set('views', './views');
+
+//setting the view engine
+app.set('view engine', 'pug');
+
+//testing middle ware stuff
+// app.use(function(req,res,next){
+//     console.log(Date.now());
+// });
+
 //basic routes
 //index route
 app.get('/', (req,res) => {
-    res.send('what the hack man');
+    res.render('index');
 });
 
 
