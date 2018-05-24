@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 
 
@@ -20,6 +21,10 @@ app.set('views', './views');
 //setting the view engine
 app.set('view engine', 'pug');
 
+//setup bodyParser MiddleWare
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+
 //testing middle ware stuff
 // app.use(function(req,res,next){
 //     console.log(Date.now());
@@ -39,6 +44,15 @@ app.get('/about', (req,res) => {
     });
 });
 
+//Add Idea form
+app.get('/ideas/add', (req,res) =>{
+    res.render('ideas/add');
+});
+
+//Process form
+app.get('/ideas', (req,res) => {
+    res.send('fakka');
+});
 
 //basic webServer
 const port = 5000;
