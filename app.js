@@ -1,6 +1,16 @@
 const express = require('express');
+const mongoose = require('mongoose');
 
 
+
+//connect to our database
+mongoose.connect('mongodb://localhost/ideas')
+.then(() => console.log('mongodb connected'))
+.catch(err => console.log(err));
+
+//load the model
+require('./models/Idea');
+const Idea = mongoose.model('ideas');
 
 const app = express();
 
