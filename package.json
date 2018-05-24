@@ -1,0 +1,19 @@
+{
+  "name": "ideas",
+  "version": "1.0.0",
+  "description": "express your ideas",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiyau/ideas.git"
+  },
+  "author": "mohamed ziyau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiyau/ideas/issues"
+  },
+  "homepage": "https://github.com/xiyau/ideas#readme"
+}
