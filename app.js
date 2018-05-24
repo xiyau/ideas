@@ -19,7 +19,13 @@ app.set('view engine', 'pug');
 //index route
 app.get('/', (req,res) => {
     res.render('index', {
-        title = 'this is me'
+        title: 'GOT AN IDEA!!!'
+    });
+});
+
+app.get('/about', (req,res) => {
+    res.render('about', {
+        title: 'About'
     });
 });
 
