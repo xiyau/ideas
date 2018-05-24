@@ -18,7 +18,9 @@ app.set('view engine', 'pug');
 //basic routes
 //index route
 app.get('/', (req,res) => {
-    res.render('index');
+    res.render('index', {
+        title = 'this is me'
+    });
 });
 
 
