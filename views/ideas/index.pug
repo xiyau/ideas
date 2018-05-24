@@ -6,6 +6,7 @@ block content
             .card.card-body.mb-2
                 h4=ide.title
                 p=ide.details
+                a(href='/ideas/edit/'+ ide._id) Edit
     else
         .card.card-body
             p !no ideas to list

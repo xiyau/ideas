@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+	if errors
+		each error in errors
+			.alert.alert-danger=error.text
+	.card.card-body
+		h3 Huh you want to edit the !dea
+		form(action='/ideas', method='post')
+			.form-group
+				label(for='title') Title
+				input.form-control(type='text', name='title',required, value=idea.title)
+			.form-group
+				label(for='details') Details
+				textarea.form-control(name='details',required)=idea.details
+				button.btn.btn-primary(type='submit') Submit
