@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 
 //connect to our database
 mongoose.connect('mongodb://localhost/ideas')
-.then(() => console.log('mongodb connected'))
-.catch(err => console.log(err));
+    .then(() => console.log('mongodb connected'))
+    .catch(err => console.log(err));
 
 //load the model
 require('./models/Idea');
@@ -44,15 +44,59 @@ app.get('/about', (req,res) => {
     });
 });
 
+//Idea index page
+app.get('/ideas', (req, res) => {
+
+    Idea.find({})
+        .sort({date:'desc'})
+        .then(idea => {
+            res.render('ideas/index',{
+            idea:idea
+        });
+    });
+   
+});
+
 //Add Idea form
-app.get('/ideas/add', (req,res) =>{
+
+app.get('/ideas/add', (req,res) => {
+
     res.render('ideas/add');
 });
 
 //Process form
-app.get('/ideas', (req,res) => {
-    res.send('fakka');
+
+app.post('/ideas', (req,res) => {
+    let errors = [];
+    if(!req.body.title){
+        errors.push({text:'Please add a title'})
+    }
+    if(!req.body.details){
+        errors.push({text:'please add a text'})
+    }
+
+    if(errors.length > 0){
+        res.render('ideas/add',{
+            errors: errors,
+            title: req.body.title,
+            details: req.body.details
+        });
+    }else {
+        var newUser = {
+            title: req.body.title,
+            details: req.body.details
+        }
+        new Idea(newUser)
+            .save()
+            .then(idea => {
+                res.redirect('/ideas')
+            })
+    }
+
 });
+
+
+
 
 //basic webServer
 const port = 5000;

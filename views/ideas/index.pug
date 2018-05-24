@@ -1,0 +1,11 @@
+extends ../layout   
+
+block content
+    if(idea)
+        each ide in idea
+            .card.card-body.mb-2
+                h4=ide.title
+                p=ide.details
+    else
+        .card.card-body
+            p !no ideas to list
