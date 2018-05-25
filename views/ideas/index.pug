@@ -6,7 +6,11 @@ block content
             .card.card-body.mb-2
                 h4=ide.title
                 p=ide.details
-                a(href='/ideas/edit/'+ ide._id) Edit
+                a.btn.btn-dark.btn-block.mb-2(href='/ideas/edit/'+ ide._id) Edit
+                form(method='post', action='/ideas/'+ ide._id + '?_method=DELETE')
+                    input(type='hidden', name='_method', value='DELETE')
+                    input.btn.btn-danger.btn-block(type='submit', value='Delete')
+
     else
         .card.card-body
             p !no ideas to list

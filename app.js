@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
+
 
 
 
@@ -24,6 +26,9 @@ app.set('view engine', 'pug');
 //setup bodyParser MiddleWare
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+
+//method override middleware
+app.use(methodOverride('_method'));
 
 //testing middle ware stuff
 // app.use(function(req,res,next){
@@ -73,7 +78,7 @@ app.get('/ideas/edit/:id',(req,res) => {
         res.render('ideas/edit',{
             idea
         });
-    })
+    });
     
 });
 
@@ -108,6 +113,32 @@ app.post('/ideas', (req,res) => {
 
 });
 
+// Edit Form Process
+// first put request
+app.put('/ideas/:id', (req,res) => {
+    Idea.findOne({
+        _id: req.params.id
+    })
+    .then(idea =>{
+        //new values
+        idea.title = req.body.title;
+        idea.details = req.body.details;
+
+        idea.save()
+        .then(idea =>{
+            res.redirect('/ideas');
+        });
+    });
+});
+
+
+//Delete Idea
+app.delete('/ideas/:id', (req,res) =>{
+    Idea.remove({_id: req.params.id})
+        .then(()=>{
+            res.redirect('/ideas');
+        });
+});
 
 
 

@@ -6,7 +6,8 @@ block content
 			.alert.alert-danger=error.text
 	.card.card-body
 		h3 Huh you want to edit the !dea
-		form(action='/ideas', method='post')
+		form(action='/ideas/'+idea._id+'?_method=PUT', method='post')
+			.input(type='hidden', name='_method', value='')
 			.form-group
 				label(for='title') Title
 				input.form-control(type='text', name='title',required, value=idea.title)
