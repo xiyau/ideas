@@ -20,10 +20,10 @@ html
 							.dropdown-menu
 								a.dropdown-item(href="/ideas") Ideas
 								a.dropdown-item(href="/ideas/add") Add Idea
-		if(success_msg)
-			.alert.alert-sucess= success_msg
-		if(error_msg)
-			.alert.alert-danger=error-msg
+		if(locals.success_msg.length > 0)
+			.alert.alert-success= success_msg[0]
+		if(locals.error_msg.length > 0)
+			.alert.alert-danger= error-msg[0]
 
 
 		block content

@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const flash = require('connect-flash');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
 
 
 
@@ -129,6 +129,7 @@ app.post('/ideas', (req,res) => {
         new Idea(newUser)
             .save()
             .then(idea => {
+                req.flash('success_msg', 'idea Added');
                 res.redirect('/ideas')
             })
     }
@@ -148,6 +149,7 @@ app.put('/ideas/:id', (req,res) => {
 
         idea.save()
         .then(idea =>{
+            req.flash('success_msg', 'idea updated');
             res.redirect('/ideas');
         });
     });
@@ -158,6 +160,7 @@ app.put('/ideas/:id', (req,res) => {
 app.delete('/ideas/:id', (req,res) =>{
     Idea.remove({_id: req.params.id})
         .then(()=>{
+            req.flash('success_msg', 'idea removed');
             res.redirect('/ideas');
         });
 });
