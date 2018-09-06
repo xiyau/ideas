@@ -20,8 +20,11 @@ const Idea = mongoose.model('ideas');
 
 const app = express();
 
-//load routes
+//load idea routes
 const ideas = require('./routes/ideas');
+
+//load user routes
+const users = require('./routes/users');
 
 //set the views directory
 app.set('views', './views');
@@ -77,8 +80,11 @@ app.get('/about', (req,res) => {
     });
 });
 
-// Use routes
-app.use('/ideas', ideas)
+// Use idea routes
+app.use('/ideas', ideas);
+
+// Use User routes
+app.use('/users',users);
 
 
 
