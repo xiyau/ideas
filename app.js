@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const session = require('express-session');
@@ -35,6 +36,9 @@ app.set('view engine', 'pug');
 //setup bodyParser MiddleWare
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+
+//Static Folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 //method override middleware
 app.use(methodOverride('_method'));
