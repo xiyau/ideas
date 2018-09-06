@@ -8,6 +8,7 @@ const flash = require('connect-flash');
 
 
 
+
 //connect to our database
 mongoose.connect('mongodb://localhost/ideas')
     .then(() => console.log('mongodb connected'))
@@ -18,6 +19,9 @@ require('./models/Idea');
 const Idea = mongoose.model('ideas');
 
 const app = express();
+
+//load routes
+const ideas = require('./routes/ideas');
 
 //set the views directory
 app.set('views', './views');
@@ -59,6 +63,8 @@ app.use(function(req,res,next){
 
 //basic routes
 //index route
+
+
 app.get('/', (req,res) => {
     res.render('index', {
         title: 'GOT AN IDEA!!!'
@@ -71,99 +77,10 @@ app.get('/about', (req,res) => {
     });
 });
 
-//Idea index page
-app.get('/ideas', (req, res) => {
-
-    Idea.find({})
-        .sort({date:'desc'})
-        .then(idea => {
-            res.render('ideas/index',{
-            idea:idea
-        });
-    });
-   
-});
-
-//Add Idea form
-
-app.get('/ideas/add', (req,res) => {
-
-    res.render('ideas/add');
-});
-
-//Edit idea form
-app.get('/ideas/edit/:id',(req,res) => {
-    Idea.findOne({
-        _id: req.params.id
-    })
-    .then(idea => {
-        res.render('ideas/edit',{
-            idea
-        });
-    });
-    
-});
-
-//Process form
-
-app.post('/ideas', (req,res) => {
-    let errors = [];
-    if(!req.body.title){
-        errors.push({text:'Please add a title'})
-    }
-    if(!req.body.details){
-        errors.push({text:'please add a text'})
-    }
-
-    if(errors.length > 0){
-        res.render('ideas/add',{
-            errors: errors,
-            title: req.body.title,
-            details: req.body.details
-        });
-    }else {
-        var newUser = {
-            title: req.body.title,
-            details: req.body.details
-        }
-        new Idea(newUser)
-            .save()
-            .then(idea => {
-                req.flash('success_msg', 'idea Added');
-                res.redirect('/ideas')
-            })
-    }
-
-});
-
-// Edit Form Process
-// first put request
-app.put('/ideas/:id', (req,res) => {
-    Idea.findOne({
-        _id: req.params.id
-    })
-    .then(idea =>{
-        //new values
-        idea.title = req.body.title;
-        idea.details = req.body.details;
-
-        idea.save()
-        .then(idea =>{
-            req.flash('success_msg', 'idea updated');
-            res.redirect('/ideas');
-        });
-    });
-});
+// Use routes
+app.use('/ideas', ideas)
 
 
-//Delete Idea
-app.delete('/ideas/:id', (req,res) =>{
-    Idea.remove({_id: req.params.id})
-        .then(()=>{
-            req.flash('success_msg', 'idea removed');
-            res.redirect('/ideas');
-        });
-});
 
 
 
