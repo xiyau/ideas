@@ -4,14 +4,17 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const flash = require('connect-flash');
 
 
+//DB Config
+const db = require('./config/database');
 
 
 
 //connect to our database
-mongoose.connect('mongodb://localhost/ideas')
+mongoose.connect(db.mongoURI)
     .then(() => console.log('mongodb connected'))
     .catch(err => console.log(err));
 
@@ -26,6 +29,9 @@ const ideas = require('./routes/ideas');
 
 //load user routes
 const users = require('./routes/users');
+
+//passport config
+require('./config/passport')(passport);
 
 //set the views directory
 app.set('views', './views');
@@ -51,6 +57,10 @@ app.use(session({
     saveUninitialized: true
 }));
 
+//Authentication and session handling
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 //setting up flash middleware
 app.use(flash());
@@ -60,6 +70,7 @@ app.use(function(req,res,next){
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
     next();
 });
 
@@ -95,7 +106,7 @@ app.use('/users',users);
 
 
 //basic webServer
-const port = 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, ( )=> {
     console.log(`server started on port ${port}`);
 });
