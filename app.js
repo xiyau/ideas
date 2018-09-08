@@ -14,10 +14,14 @@ const db = require('./config/database');
 
 
 //connect to our database
-mongoose.connect(db.mongoURI)
-    .then(() => console.log('mongodb connected'))
-    .catch(err => console.log(err));
-
+mongoose.Promise = global.Promise;
+// Connect to mongoose
+mongoose.connect(db.mongoURI, {
+  useMongoClient: true
+})
+  .then(() => console.log('MongoDB Connected...'))
+  .catch(err => console.log(err));
+  
 //load the model
 require('./models/Idea');
 const Idea = mongoose.model('ideas');
